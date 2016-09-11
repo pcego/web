@@ -46,7 +46,7 @@ function init_map() {
     map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
     marker = new google.maps.Marker({
         map: map,
-        position: new google.maps.LatLng(-16.694908, -43.842338) //change the coordinates
+        position: new google.maps.LatLng(-16.7136392, -43.905483) //change the coordinates
     });
 
 }
