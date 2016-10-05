@@ -14,7 +14,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # Definindo hosts válidos quando debug for false
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
-
+DEFAULT_FROM_EMAIL = 'contato@fasa.edu.br'
 # Application definition
 
 INSTALLED_APPS = [
