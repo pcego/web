@@ -6,6 +6,7 @@ from django.core import mail
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.conf import settings
+from fasa.subscriptions.models import Subscription
 
 
 def subscribe(request):
@@ -31,6 +32,8 @@ def subscribe(request):
                            body,
                            'contato@fasa.edu.br',
                            ['contato@fasa.edu.br', data['email']])
+
+            Subscription.objects.create(**form.cleaned_data)
 
             messages.success(request, 'Inscrição Realizada com Sucesso!')
 
