@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fasa.core',
-    'fasa.subscriptions',
+    'fasa.subscriptions.apps.SubscriptionsConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
