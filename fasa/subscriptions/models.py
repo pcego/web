@@ -15,6 +15,9 @@ class Subscription(models.Model):
         verbose_name = 'inscrição'
         verbose_name_plural = 'inscrições'
 
+        # Código adicionado para ordenação
+        ordering = ('-created_at',)
+
 
     def __str__(self):
         return self.name
