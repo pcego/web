@@ -30,23 +30,29 @@ def create(request):
         return render(request, 'subscriptions/subscription_form.html',
                       {'form': form})
 
+    # Criando um objeto subscription carregado com os dados gravados no banco
+    subscription = Subscription.objects.create(**form.cleaned_data)
+
     ## chamada para a função auxiliar que envia email
     _send_mail('Confirmação de Incrição.',
                settings.DEFAULT_FROM_EMAIL,
-               form.cleaned_data['email'],
+               subscription.email,
                'subscriptions/subscription_email.txt',
-               form.cleaned_data)
+               {'subscription': subscription})
 
-    Subscription.objects.create(**form.cleaned_data)
-
-    messages.success(request, 'Inscrição Realizada com Sucesso!')
-
-    return HttpResponseRedirect('/inscricao/')
-
+    # Mudando o redirect para a rota da view detail
+    # Passando como parâmetro a chave primária do objeto
+    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.pk))
 
 
 def new(request):
     return render(request,'subscriptions/subscription_form.html', {'form':SubscriptionForm()})
+
+
+def detail(request, pk):
+    subscription = Subscription.objects.get(pk=pk)
+    return render(request, 'subscriptions/subscription_detail.html',
+                  {'subscription': subscription})
 
 
 def _send_mail(subject, from_, to, template_name, context):
