@@ -42,15 +42,15 @@ def create(request):
 
     # Mudando o redirect para a rota da view detail
     # Passando como parâmetro a chave primária do objeto
-    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.pk))
+    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.uuid))
 
 
 def new(request):
     return render(request,'subscriptions/subscription_form.html', {'form':SubscriptionForm()})
 
 
-def detail(request, pk):
-    subscription = Subscription.objects.get(pk=pk)
+def detail(request, uuid):
+    subscription = Subscription.objects.get(uuid=uuid)
     return render(request, 'subscriptions/subscription_detail.html',
                   {'subscription': subscription})
 
