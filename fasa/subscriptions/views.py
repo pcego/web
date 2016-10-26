@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, resolve_url as r
 
 from fasa.subscriptions.forms import SubscriptionForm
 from django.template.loader import render_to_string
@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.conf import settings
 from fasa.subscriptions.models import Subscription
+
 
 
 def subscribe(request):
@@ -42,7 +43,7 @@ def create(request):
 
     # Mudando o redirect para a rota da view detail
     # Passando como parâmetro a chave primária do objeto
-    return HttpResponseRedirect('/inscricao/{}/'.format(subscription.uuid))
+    return HttpResponseRedirect(r('subscriptions:detail', subscription.uuid))
 
 
 def new(request):

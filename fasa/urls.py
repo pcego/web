@@ -1,11 +1,10 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from fasa.core.views import home
-from fasa.subscriptions.views import subscribe, detail
+
 
 urlpatterns = [
-    url(r'^$', home),
-    url(r'^inscricao/$', subscribe),
-    url(r'^inscricao/([\w-]+)/$', detail),
+    url(r'^$', home, name='home'),
+    url(r'', include('fasa.subscriptions.urls', namespace='subscriptions')),
     url(r'^admin/', admin.site.urls),
 ]
