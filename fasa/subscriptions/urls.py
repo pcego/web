@@ -1,9 +1,9 @@
 from django.conf.urls import url
-from fasa.subscriptions.views import subscribe, detail
+from fasa.subscriptions.views import new, detail
 
 urlpatterns = [
 
-    url(r'^inscricao/$', subscribe, name='new'),
-    url(r'^inscricao/([\w-]+)/$', detail, name='detail'),
+    url(r'^$', new, name='new'),
+    url(r'^([\w-]+)/$', detail, name='detail'),
 
 ]
