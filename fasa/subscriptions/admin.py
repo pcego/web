@@ -10,6 +10,8 @@ class SubscriptionModelAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'phone', 'cpf', 'created_at')
     list_filter = ('paid', 'created_at',)
 
+    actions = ['mark_as_paid']
+
     # Para maiores detalhes sobre este método
     # leia a documentação do admin do django
     # https://docs.djangoproject.com/en/1.10/ref/contrib/admin/
@@ -21,6 +23,22 @@ class SubscriptionModelAdmin(admin.ModelAdmin):
 
     # Código adicionado para criar o marcador gráfico
     subscribed_today.boolean = True
+
+    # Este método recebe como parâmetro uma instância de modelAdmin
+    # o request e um queryset
+    def mark_as_paid(self, request, queryset):
+        # recebe a quant de linhas q sofreram update
+        count = queryset.update(paid=True)
+
+        if count == 1:
+            msg = '{} Inscrição marcada como paga'
+        else:
+            msg = '{} Inscrições marcadas como pagas'
+
+        self.message_user(request, msg.format(count))
+
+
+    mark_as_paid.short_description = 'Marcar Selecionados como Pago'
 
 
 admin.site.register(Subscription, SubscriptionModelAdmin)
