@@ -32,7 +32,9 @@ def create(request):
                       {'form': form})
 
     # Criando um objeto subscription carregado com os dados gravados no banco
-    subscription = Subscription.objects.create(**form.cleaned_data)
+    subscription = form.save()
+
+    #subscription = Subscription.objects.create(**form.cleaned_data)
 
     ## chamada para a função auxiliar que envia email
     _send_mail('Confirmação de Incrição.',
