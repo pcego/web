@@ -1,12 +1,13 @@
 from django import forms
 from fasa.subscriptions.validators import validate_cpf
+from django.core.exceptions import ValidationError
 
 
 class SubscriptionForm(forms.Form):
     name = forms.CharField(label='nome')
     cpf = forms.CharField(label='cpf', validators=[validate_cpf])
-    email = forms.EmailField(label='email')
-    phone = forms.CharField(label='telefone')
+    email = forms.EmailField(label='email', required=False)
+    phone = forms.CharField(label='telefone', required=False)
 
 
     # O django sempre vai procurar um método clean ao processar um form
@@ -16,16 +17,19 @@ class SubscriptionForm(forms.Form):
     def clean_name(self):
 
         name = self.cleaned_data['name']
-        words = []
+        words=[w.capitalize() for w in name.split()]
+        return ' '.join(words)
 
-        for w in name.split():
-            words.append(w.capitalize())
 
-        capitalized_name = ' '.join(words)
+    # Susbcrevendo o método clean do form
+    # Adicionando a exception ao dicionário de erros
+    def clean(self):
 
-        return capitalized_name
+        #self.cleaned_data = super(SubscriptionForm, self).clean()
 
-        # name = self.cleaned_data['name']
-        # words=[w.capitalize() for w in name.split()]
-        #
-        # return ' '.join(words)
+        if not self.cleaned_data.get('email') and \
+                not self.cleaned_data.get('phone'):
+
+            raise ValidationError('Informe seu Email ou Telefone')
+
+        return self.cleaned_data
